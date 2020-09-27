@@ -1,2 +1,2 @@
 # TradeBot
-Automated Trading Robot based on various mathematical models and methods.
+Automated trading Robot based on various mathematical models and methods.
