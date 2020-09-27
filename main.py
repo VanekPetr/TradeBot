@@ -17,6 +17,7 @@ HOW TO USE IT:
 from DataManipulation import loadData
 from DataManipulation import dueDiligence
 from DataManipulation import compoundRet
+from ScenarioGeneration import MC
 
 
 ###################################################################
@@ -29,10 +30,20 @@ RawData = loadData("ETFdataNewer")      # Load the raw weekly data
 WeeklyData = dueDiligence(RawData)      # Due Diligence on raw data
 FourWeekRet = compoundRet(WeeklyData,nTrainWeeks = 97)   # 4-week (monthly) returns
 
-
-
-
 # SCENARIO GENERATION
 #------------------------------------------------------------------
 # The Bootstrapping Method 
 # The Monte Carlo Method
+MC_sim = MC(WeeklyData, nTrainWeeks = 97, nSim = 250)   #Pandas?
+
+
+
+
+
+
+
+
+
+
+
+

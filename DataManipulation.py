@@ -1,3 +1,7 @@
+"""
+Functions for Data Manipulation
+"""
+
 # LIBRARY
 #-------------------------------------------------------------------------
 import pandas as pd
