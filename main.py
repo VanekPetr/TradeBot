@@ -30,6 +30,8 @@ WeeklyData = dueDiligence(RawData)      # Due Diligence on raw data
 FourWeekRet = compoundRet(WeeklyData,nTrainWeeks = 97)   # 4-week (monthly) returns
 
 
+
+
 # SCENARIO GENERATION
 #------------------------------------------------------------------
 # The Bootstrapping Method 
