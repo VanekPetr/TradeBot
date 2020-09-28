@@ -18,6 +18,8 @@ from DataManipulation import loadData
 from DataManipulation import dueDiligence
 from DataManipulation import compoundRet
 from ScenarioGeneration import MC
+from ScenarioGeneration import BOOT
+from Targets import cvarTar
 
 
 ###################################################################
@@ -32,12 +34,22 @@ FourWeekRet = compoundRet(WeeklyData,nTrainWeeks = 97)   # 4-week (monthly) retu
 
 # SCENARIO GENERATION
 #------------------------------------------------------------------
-# The Bootstrapping Method 
-# The Monte Carlo Method
-MC_sim = MC(WeeklyData, nTrainWeeks = 97, nSim = 250)   #Pandas?
+BOOT_sim = BOOT(WeeklyData, nTrainWeeks = 97, nSim = 250)   # The Bootstrapping Method 
+MC_sim = MC(WeeklyData, nTrainWeeks = 97, nSim = 250)       # The Monte Carlo Method
+                                                            # Pandas?
+# CVaR TARGETS
+#------------------------------------------------------------------
+CVaR_tarets = cvarTar(FourWeekRet, MC_sim)
+                                                           
+# CVaR MODEL
+#------------------------------------------------------------------ 
 
 
-
+# PERFORMANCE MEASURES
+#------------------------------------------------------------------ 
+# The Performance.py needs to be modified
+                                                            
+            
 
 
 

@@ -6,6 +6,7 @@ Scenario Generation Methods
 #-------------------------------------------------------------------------
 import numpy as np
 import math 
+import sys
 
 
 # THE MONTE CARLO METHOD
@@ -50,4 +51,24 @@ def MC(ourData, nTrainWeeks, nSim):
                 monthly_sim[roll, s, index] = np.prod(tmp_rets)-1
                 
     return(monthly_sim)
-     
+
+# THE BOOTSTRAPPING METHOD
+#-------------------------------------------------------------------------
+def BOOT(ourData, nTrainWeeks, nSim):
+    N_Iter = 4                                                            
+    N_TrainWeeks = nTrainWeeks
+    N_Indices = ourData.shape[1]
+    N_Sim = nSim
+    N_Periods = (ourData.shape[0]-N_TrainWeeks)/4
+    if N_Periods % 1 != 0: sys.exit("ERROR: Change number of nTrainWeeks")
+    else: 
+        sim = np.zeros((N_Indices, N_Sim, N_Iter, int(N_Periods)),dtype=float)
+        monthly_sim = np.ones((N_Indices, N_Sim, int(N_Periods)))
+        for p in range(int(N_Periods)):
+            for s in range(N_Sim):
+                for w in range(N_Iter):
+                    RandomNumber = np.random.randint(4*p,97+4*p)
+                    sim[:,s,w,p] = ourData.iloc[RandomNumber,:]
+                    monthly_sim[:,s,p] *= (1+sim[:,s,w,p])
+                monthly_sim[:,s,p] += -1
+    return(monthly_sim)     
