@@ -42,7 +42,8 @@ def loadData(name):
     df_USDEUR["Change %"]=df_USDEUR["Change %"].astype("float64")
     df_USDEUR["Change %"] = df_USDEUR["Change %"]*0.01
     #Calculate the cumulative weekly return on USDEUR
-    df_USDEUR_weekly = df_USDEUR["Change %"].resample("W-WED").agg(lambda x: (x+1).prod()-1)
+    df_USDEUR_weekly = df_USDEUR["Change %"].resample("W-WED").agg(lambda x:
+        (x+1).prod()-1)
     #Join the dataframes together
     df_ret=df_ret.join(df_USDEUR_weekly) 
     #And finally we want to calculate the EUR returns for the indexes.
