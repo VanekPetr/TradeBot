@@ -61,7 +61,7 @@ def plotInteractive(data, ML, MLsubset, start, end):
     ----------------------------------------------------------------------
 """       
 
-def plotOptimization(performance, performanceBenchmark, composition):
+def plotOptimization(performance, performanceBenchmark, composition, names):
     # PERFORMANCE
     performance.index = performance.index.date
     df_to_plot = pd.concat([performance, performanceBenchmark], axis =1)
@@ -71,6 +71,7 @@ def plotOptimization(performance, performanceBenchmark, composition):
 
     
     # COMPOSITION
+    composition.columns = list(names.iloc[:])
     composition = composition.loc[:, (composition != 0).any(axis=0)]
     data = []
     for isin in composition.columns:

@@ -1,5 +1,5 @@
 # TradeBot
-This is a DEMO VERSION of automated trading Robot created by Petr Vanek.<br/>
+This is a PROTOTYPE VERSION of automated trading Robot.<br/>
 For a FULL VERSION please contact us at www.algostrata.com<br/>
 
 Our tool is based on various mathematical models and methods:<br/>

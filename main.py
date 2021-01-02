@@ -19,12 +19,31 @@ from pandas_datareader import data
 # WHAT TIME PERIOD DO WE WANT WORK WITH?
 #------------------------------------------------------------------
 startDate = "2015-09-23"
-endDate = "2020-09-22"
+endDate = "2019-09-22"
 #thesis dates:  startDate ="2016-07-25" & endDate = "2020-04-30"
 
-tickers = ["BABA", "AAPL", "SPY", "AOA", "IGE", "IXC", "VDE", "IUSB", "ISTB",
-           "VCSH", "VT", "VTI", "XBI", "FBT", "PALL", "PGX", "ANGL", "PGF",
-           "XMLV", "IGV", "IHI"]
+# TICKERS OF ETFs WE ARE GOING TO WORK WITH
+#------------------------------------------------------------------
+tickers = ["ANGL","ASHR","BIV","BKLN","BNDX","BOND","BRF","CGW","CMBS",
+           "CMF","CORP","CSM","CWB","DBA","DBB","DBO","DBS","DBV","DES","DGL",
+           "DGRW","DIA","DLS","DOL","DON","DSI","DXGE","DXJ","EBND","ECH","EDEN",
+           "EEM","EFV","EIDO","EIRL","ENZL","EPHE","EWD","EWG","EWH","EWI","EWL",
+           "EWM","EWN","EWQ","EWS","EWT","EWU","EWW","EWY","EZA","FBT","FCG",
+           "FCOM","FDD","FDL","FEU","FEX","FLRN","FPX","FTA","FTCS","FTSM","FXA",
+           "FXB","FXC","FXE","FXF","FXR","FXY","FXZ","GBF","GNMA","GREK","GSY",
+           "HDV","HEDJ","HEFA","HYD","HYEM","IAU","IBND","IDLV","IGE","IGN","IGV",
+           "IHI","INDA","IOO","IPE","IPFF","IQDF","ISTB","ITA","ITB","ITM","IUSV",
+           "IVOO","IVOV","IWC","IWN","IWO","IWY","IXG","IXN","IYE","IYY","IYZ",
+           "JKD","JKE","JKG","JPXN","KBWP","KOL","KRE","KXI","LTPZ","MCHI","MDYG",
+           "MDYV","MGV","MLPA","MOAT","MOO","MTUM","OIH","PALL","PCY","PDP","PEY",
+           "PFXF","PHB","PHO","PJP","PKW","PRFZ","PSCC","PSCT","PSCU","PSK","PSL",
+           "PUI","PWB","PWV","PWZ","QDF","QUAL","RDIV","REM","REZ","RFG","RING",
+           "RSX","RTH","RWJ","RWL","RWX","RXI","RYF","SCHC","SCHE","SCJ","SDIV",
+           "SDOG","SGDM","SGOL","SHM","SILJ","SIZE","SLQD","SLY","SLYG","SMLV",
+           "SNLN","SOCL","SPHQ","SPYG","TAN","TDIV","TDTT","THD","TIP","TOK","TUR",
+           "UGA","URA","URTH","USDU","VBK","VCLT","VEA","VLUE","VNM","VOE","VONE",
+           "VONG","VONV","VOT","VXF","XBI","XES","XHS","XLE","XLG","XLI","XLK",
+           "XLP","XLU","XLV","XLY","XME","XPH","XRT","XSD","XTN","ZROZ"]
 
 """
     ----------------------------------------------------------------------
@@ -42,7 +61,7 @@ dailyPrices = dailyPrices["Adj Close"]
 dataStat, weeklyReturns = analyseData(data = dailyPrices,
                                       startDate = startDate,
                                       endDate = endDate) 
-weeklyReturns
+
 
 # PLOT INTERACTIVE GRAPH
 #------------------------------------------------------------------
@@ -82,11 +101,10 @@ else:
 
 # RUN THE MINIMUM SPANNING TREE METHOD
 #------------------------------------------------------------------
-nMST = 1                        # Select how many times run the MST method   
+nMST = 3                        # Select how many times run the MST method   
 subsetMST_df = trainDataset
 for i in range(nMST):
     subsetMST, subsetMST_df, corrMST_avg, PDI_MST = MinimumSpanningTree(subsetMST_df)
-
     
 # PLOT
 plotInteractive(data = dataPlot,
@@ -106,7 +124,7 @@ clusters = Cluster(trainDataset,
 subsetCLUST, subsetCLUST_df = pickCluster(data = trainDataset,
                                           stat = dataPlot,
                                           ML = clusters,
-                                          nAssets = 3)
+                                          nAssets = 10) #Number of assets selected from each cluster
 
 # PLOT
 plotInteractive(data = dataPlot,
@@ -161,7 +179,7 @@ MC_sim_CLUST = MC(data = subsetCLUST_df,                #subsetMST_df or subsetC
 targets, benchmarkPortVal = targetsCVaR(start_date = startDate,
                                         end_date = endDate,
                                         test_date = startTestDate,
-                                        benchmark = ["SPY"],   #Credit Suisse Floating Rate
+                                        benchmark = ["URTH"],   #MSCI World benchmark
                                         test_index = testDataset.index.date,
                                         budget = 100,
                                         cvar_alpha=0.05) 
@@ -170,22 +188,23 @@ targets, benchmarkPortVal = targetsCVaR(start_date = startDate,
 # MATHEMATICAL MODELING
 #------------------------------------------------------------------
 portAllocation, portValue, portCVaR = modelCVaR(testRet = testDataset[subsetMST],
-                                                scen = BOOT_sim_MST,
-                                                targets = targets,
+                                                scen = MC_sim_MST,  #Scenarios
+                                                targets = targets,  #Target
                                                 budget = 100,
                                                 cvar_alpha = 0.05,
                                                 trans_cost = 0.001,
-                                                max_weight = 0.5)
+                                                max_weight = 0.33)
 
 # PLOTTING
 #------------------------------------------------------------------
 plotOptimization(performance = portValue,
                  performanceBenchmark = benchmarkPortVal,
-                 composition = portAllocation)
+                 composition = portAllocation,
+                 names = subsetMST)
 
 
 
 # STATISTICS
 #------------------------------------------------------------------
-finalStat(portValue.iloc[0:100]) 
-finalStat(benchmarkPortVal.iloc[0:100])
+finalStat(portValue) 
+finalStat(benchmarkPortVal)
