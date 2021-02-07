@@ -71,7 +71,7 @@ def plotOptimization(performance, performanceBenchmark, composition, names):
 
     
     # COMPOSITION
-    composition.columns = list(names.iloc[:])
+    composition.columns = list(names)
     composition = composition.loc[:, (composition != 0).any(axis=0)]
     data = []
     for isin in composition.columns:

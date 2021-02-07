@@ -24,6 +24,7 @@ endDate = "2019-09-22"
 
 # TICKERS OF ETFs WE ARE GOING TO WORK WITH
 #------------------------------------------------------------------
+
 tickers = ["ANGL","ASHR","BIV","BKLN","BNDX","BOND","BRF","CGW","CMBS",
            "CMF","CORP","CSM","CWB","DBA","DBB","DBO","DBS","DBV","DES","DGL",
            "DGRW","DIA","DLS","DOL","DON","DSI","DXGE","DXJ","EBND","ECH","EDEN",
@@ -45,6 +46,7 @@ tickers = ["ANGL","ASHR","BIV","BKLN","BNDX","BOND","BRF","CGW","CMBS",
            "VONG","VONV","VOT","VXF","XBI","XES","XHS","XLE","XLG","XLI","XLK",
            "XLP","XLU","XLV","XLY","XME","XPH","XRT","XSD","XTN","ZROZ"]
 
+#tickers = ['BTC-USD']
 """
     ----------------------------------------------------------------------
     DATA ANALYTICS AND VISUALISATION 
@@ -197,8 +199,8 @@ portAllocation, portValue, portCVaR = modelCVaR(testRet = testDataset[subsetMST]
 
 # PLOTTING
 #------------------------------------------------------------------
-plotOptimization(performance = portValue,
-                 performanceBenchmark = benchmarkPortVal,
+plotOptimization(performance = portValue.copy(),
+                 performanceBenchmark = benchmarkPortVal.copy(),
                  composition = portAllocation,
                  names = subsetMST)
 
