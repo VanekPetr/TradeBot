@@ -1,5 +1,5 @@
 # TradeBot
-IMPORTANT: this repository is outdated, please vision [investment-funnel](https://github.com/VanekPetr/investment-funnel)
+IMPORTANT: this repository is outdated, please visit [investment-funnel](https://github.com/VanekPetr/investment-funnel)
 
 This is a PROTOTYPE VERSION of automated trading Robot.<br/>
 For a FULL VERSION please contact us at www.algostrata.com<br/>
